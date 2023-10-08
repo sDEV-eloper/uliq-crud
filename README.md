@@ -1,1 +1,1 @@
-# ucliQ-crud-app
+# assignment-crud
