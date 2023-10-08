@@ -5,7 +5,7 @@ import { FaSearch } from "react-icons/fa";
 
 // Axios instance for API request
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: "http://localhost:8080",
 });
 
 function App() {
@@ -205,7 +205,7 @@ function App() {
         {filteredUsers.map((user) => (
           <div key={user._id} className="user-item">
            <img
-  src={`http://localhost:3001/uploads/${user.profileImage}`}
+  src={`http://localhost:8080/uploads/${user.profileImage}`}
   alt={`${user.firstName}'s profile`}
   className="user-avatar"
 />
