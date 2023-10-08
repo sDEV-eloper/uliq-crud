@@ -135,6 +135,7 @@ function App() {
     return fullName.includes(searchQuery.toLowerCase());
   });
 
+  console.log("FILTER", filteredUsers)
   return (
     <div className="App">
       <h1 className="heading">CRUD App</h1>
@@ -205,7 +206,7 @@ function App() {
         {filteredUsers.map((user) => (
           <div key={user._id} className="user-item">
            <img
-  src={`http://localhost:8080/uploads/${user.profileImage}`}
+  src={`http://localhost:8080/${user.profileImage}`}
   alt={`${user.firstName}'s profile`}
   className="user-avatar"
 />
