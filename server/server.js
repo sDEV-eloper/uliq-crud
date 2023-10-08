@@ -6,7 +6,7 @@ const path = require("path");
 const User = require("./models/user");
 
 const app = express();
-const port = 3001;
+const port = 8080;
 
 app.use(cors());
 app.use(express.json());
@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
 // Create a new user
 app.post("/api/users", upload.single("profileImage"), async (req, res) => {
@@ -41,7 +41,6 @@ app.post("/api/users", upload.single("profileImage"), async (req, res) => {
 
     const user = new User({ firstName, lastName, email, phone, profileImage });
     await user.save();
-
     res.json(user);
   } catch (err) {
     console.error(err);
@@ -72,46 +71,46 @@ app.get("/api/users/:id", async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
   }
-});
+}); 
 
 // Update user by ID
 app.put("/api/users/:id", upload.single("profileImage"), async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
+try {
+const user = await User.findById(req.params.id);
+if (!user) {
+return res.status(404).json({ error: "User not found" });
+}
 
-    const { firstName, lastName, email, phone } = req.body;
-    if (req.file) {
-      user.profileImage = req.file.filename;
-    }
+const { firstName, lastName, email, phone } = req.body;
+if (req.file) {
+user.profileImage = req.file.filename;
+}
     user.firstName = firstName;
-    user.lastName = lastName;
-    user.email = email;
-    user.phone = phone;
+user.lastName = lastName;
+user.email = email;
+user.phone = phone;
 
-    await user.save();
+await user.save();
 
-    res.json(user);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+res.json(user);
+} catch (err) {
+console.error(err);
+res.status(500).json({ error: "Internal Server Error" });
+}
 });
 
 // Delete user by ID
 app.delete("/api/users/:id", async (req, res) => {
-  try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
+try {
+const user = await User.findByIdAndDelete(req.params.id);
+if (!user) {
+return res.status(404).json({ error: "User not found" });
+}
     res.json({ message: "User deleted successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+} catch (err) {
+console.error(err);
+res.status(500).json({ error: "Internal Server Error" });
+}
 });
 
 app.listen(port, () => {
